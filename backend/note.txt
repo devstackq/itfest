@@ -1,0 +1,65 @@
+- dropdown -> pattern1, pattern2
+- client -> pattern2 -> backend -> db -> return template client
+--client ->  {pattern : 1, customTitle : value; customValue : value } + 
+
+
+--dropdown - pattern1 -> return fields json
+type - h1,h2,h3, p, span
+
+registration - >  name, email, phone, password, companyId, departId, positionId, roleId -> return access/refresh token
+signin - email, password -> return access/refresh token
+
+/main
+create -> dropdown -> fetch(/patternType) -> choicePattern -> loadJsonFields -> fill -> create btn
+
+{
+    typeEvent: create;
+    auhorId (header{braereToken})
+    typePaternId: 2
+    fieldsData{...}
+    path : patternName+auhorId+date + pdf
+}
+backend : {
+    createDocumentHandler
+    createEventHandler
+}
+
+getDocById -> edit -> {typeEvent: edit, editorId : author || accessType == 1, docId : 12 }
+
+
+getDocById -> changeAccess -> Read/Write/Delete/Block [checkbox] -> {typeEvent: access/denied (typeEvenValue), docId, typeAccessId}
+
+backend { 
+    if docId -> authorId -> change Access to Doc ->  set typeAccess & whomId
+}
+
+/history -> docId -> authorId -> return { data... }
+
+MyDocs -> return listDocsByAuthorId
+
+
+// app.Start()
+/*
+	plans:
+	mind map - tasks
+	db - models Db
+
+	auth
+	search
+	download/
+	upload -documents -> db -> history
+
+	crud - document - pattern froms ? -> history
+	access document -> history
+	backup db
+	crypto - docs
+	pdf ->
+	history -> douments(user)
+
+	history -> uplaodd -> open access -> signature
+
+	create file Body (crypto) -> secreteKey
+	header - metadat -> isCrypto?
+	ecp sign - kalkan
+	1:
+*/

@@ -1,9 +1,97 @@
---user
+--versionDocs - src doc ?
 
---roles
+CREATE TABLE bimbo_user
+(
+    id BIGSERIAL PRIMARY KEY,
+    full_name VARCHAR(80) NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL UNIQUE,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL,
+    company_id INTEGER NOT NULL REFERENCES bimbo_company(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    departament_id INTEGER NOT NULL REFERENCES bimbo_departament(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    position_id INTEGER NOT NULL REFERENCES bimbo_position(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    role_id INTEGER NOT NULL REFERENCES bimbo_role(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
 
---history
+CREATE TABLE bimbo_company
+(
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE
+);
 
---document
+CREATE TABLE bimbo_departament
+(
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE
+);
 
---
+CREATE TABLE bimbo_position
+(
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE bimbo_role
+(
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE bimbo_document
+(
+    id BIGSERIAL PRIMARY KEY,
+    path VARCHAR(50) NOT NULL UNIQUE,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL,
+    author_id INTEGER NOT NULL REFERENCES bimbo_user(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE bimbo_access
+(
+    id BIGSERIAL PRIMARY KEY,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL,
+    document_id INTEGER NOT NULL REFERENCES bimbo_document(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    access_type_id INTEGER NOT NULL REFERENCES bimbo_type_access(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    to_whom_id INTEGER NOT NULL REFERENCES bimbo_user(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE bimbo_type_access
+(
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE bimbo_history_event
+(
+    id BIGSERIAL PRIMARY KEY,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL,
+    document_id INTEGER NOT NULL REFERENCES bimbo_document(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    type_event_id INTEGER NOT NULL REFERENCES bimbo_type_event(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    author_id INTEGER NOT NULL REFERENCES bimbo_user(id) ON DELETE CASCADE ON UPDATE CASCADE
+    to_whom_id INTEGER NOT NULL REFERENCES bimbo_user(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE bimbo_type_event
+(
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE
+);
+
+
+CREATE TABLE bimbo_template_category
+(
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE,
+    template_id INTEGER NOT NULL REFERENCES bimbo_template(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE bimbo_template
+(
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE,
+    body TEXT
+);
