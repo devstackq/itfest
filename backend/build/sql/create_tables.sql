@@ -99,7 +99,11 @@ CREATE TABLE bimbo_choice
 (
     id BIGSERIAL PRIMARY KEY,
     jsonKey VARCHAR(50) NOT NULL,
-    value VARCHAR(100) NOT NULL,
+    value VARCHAR(10000) NOT NULL,
+    title VARCHAR(500) NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    htmlTagKey VARCHAR(100) NOT NULL,
+    -- htmlTagValue VARCHAR(100) NOT NULL,
     template_id INTEGER NOT NULL REFERENCES bimbo_template(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 

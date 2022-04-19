@@ -63,3 +63,31 @@ MyDocs -> return listDocsByAuthorId
 	ecp sign - kalkan
 	1:
 */
+
+<!-- 
+<h1>    {{Choice.Title}}</h1>
+<p>    {{Choice.Description}}</p>
+
+
+    <table>
+        <thead>
+        <tr>
+    {{range $element := .Choice.TH}} {{
+        {{if $element.Key }}
+          <th> $element.Value</th>
+        {{end}}
+      }} 
+      {{end}}
+    </tr>
+</thead>
+<tbody>
+    <tr>
+      {{range $element := .Choice.TD}} {{
+        {{if $element.Key }}
+          <td> $element.Value</td>
+        {{end}}
+      }} 
+      {{end}}
+    </tr>
+</tbody>
+</table> -->

@@ -1,0 +1,4 @@
+*.txt
+.env
+/postgres-data
+postgres-data

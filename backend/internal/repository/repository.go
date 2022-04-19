@@ -35,12 +35,24 @@ type RoleRepoInterface interface {
 	GetList(context.Context) ([]model.Role, error)
 }
 
+type TemplateRepoInterface interface {
+	Create(context.Context, model.Template) error
+	GetList(context.Context) ([]model.Template, error)
+}
+
+type ChoiceRepoInterface interface {
+	Create(context.Context, []model.Choice, int) error
+	GetList(context.Context, int) ([]model.Choice, error)
+}
+
 type Repositories struct {
 	AuthRepositoryInterface
 	CompanyRepoInterface
 	DepartamentRepoInterface
 	PositionRepoInterface
 	RoleRepoInterface
+	TemplateRepoInterface
+	ChoiceRepoInterface
 }
 
 func RepositoryInit(db *sql.DB) Repositories {
@@ -50,5 +62,7 @@ func RepositoryInit(db *sql.DB) Repositories {
 		DepartamentRepoInterface: psql.DepartamentRepoInit(db),
 		PositionRepoInterface:    psql.PositionRepoInit(db),
 		RoleRepoInterface:        psql.RoleRepoInit(db),
+		TemplateRepoInterface:    psql.TemplateRepoInit(db),
+		ChoiceRepoInterface:      psql.ChoiceRepoInit(db),
 	}
 }

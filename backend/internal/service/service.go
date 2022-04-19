@@ -15,6 +15,9 @@ type Services struct {
 	DepartamentServiceInterface
 	PositionServiceInterface
 	RoleServiceInterface
+	ChoiceServiceInterface
+	TemplateServiceInterface
+	DocumentServiceInterface
 }
 
 func ServiceInit(repos repository.Repositories, cfg *config.Config) Services {
@@ -24,7 +27,24 @@ func ServiceInit(repos repository.Repositories, cfg *config.Config) Services {
 		DepartamentServiceInterface: DepartamentServiceInit(repos.DepartamentRepoInterface),
 		PositionServiceInterface:    PositionServiceInit(repos.PositionRepoInterface),
 		RoleServiceInterface:        RoleServiceInit(repos.RoleRepoInterface),
+		TemplateServiceInterface:    TemplateServiceInit(repos.TemplateRepoInterface),
+		ChoiceServiceInterface:      ChoiceServiceInit(repos.ChoiceRepoInterface),
 	}
+}
+
+// todo
+type DocumentServiceInterface interface {
+	Create(model.Document) error
+}
+
+type ChoiceServiceInterface interface {
+	Create([]model.Choice, int) error
+	GetList(int) ([]model.Choice, error)
+}
+
+type TemplateServiceInterface interface {
+	Create(model.Template) error
+	GetList() ([]model.Template, error)
 }
 
 type AuthServiceInterface interface {

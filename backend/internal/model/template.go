@@ -8,6 +8,19 @@ type Template struct {
 	TempId int
 }
 
+type Templ1 struct {
+	ID           int // tmpl id
+	Title        string
+	Description  string
+	Company      // get list
+	Departament  // get list
+	Status       // get list
+	CreationDate string
+	Author       User `json:"auhtor_id"`  // get jwt token
+	ToWhom       User `json:"to_whom_id"` // return list user
+	// TempalteId   int  `json:"template_id"` //
+}
+
 // create sample 1,2,3,4,5 html
 // create struct 1,2,3,4,5
 
@@ -17,9 +30,10 @@ type Template struct {
 
 /*
 in further create template : admin -> create template
-1.1 create temp:  Name tempalte,
+1.1 create temp:  Name tempalte
 1.2 create fields:  key:title:type:tempId: tag
 1.3 generate by Fields - html -> <h1> {{ .Key }} </h1>
+1.4 return client from Db by templID -> json {title: key}
 -----------------
 
 1 client:  /create pdf doc -> getFields By TempId -> map[jsonKey]title

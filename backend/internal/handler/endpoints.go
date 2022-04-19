@@ -18,6 +18,7 @@ func SetEndpoints(cfg *config.Config, db *sql.DB, logger *logrus.Logger, group *
 
 	handler := NewHandler(services, logger, cfg)
 
+	// todo middleware access
 	auth := group.Group("/auth")
 	{
 		auth.POST("/signup", handler.SignUp)
@@ -37,6 +38,16 @@ func SetEndpoints(cfg *config.Config, db *sql.DB, logger *logrus.Logger, group *
 
 	admin.POST("/role", handler.CreateRole)
 	admin.GET("/role", handler.GetListRole)
+
+	admin.POST("/template", handler.CreateTemplateCategory)
+	admin.GET("/template", handler.GetListTemplateCategory)
+
+	admin.POST("/template/choice/:tmplId", handler.CreateTemplateChoice)
+	admin.GET("/template/choice/:tmplId", handler.GetListTemplateChoiceBiID)
+
+	user := group.Group("/user")
+
+	user.POST("/document", handler.CreateDocument)
 
 	// refresh := group.Group("/auth/refresh", middleware.AuthorizeJWT("refreshx")) // todo: env config
 	{
