@@ -59,7 +59,7 @@ func GetConfig() *Config {
 			Port:     getEnvAsStr("POSTGRES_PORT", "5432"),
 			Username: getEnvAsStr("POSTGRES_USER", "postgres"),
 			Password: getEnvAsStr("POSTGRES_PASSWORD", "postgres"),
-			DBName:   getEnvAsStr("POSTGRES_DB", "testdb"),
+			DBName:   getEnvAsStr("POSTGRES_DB", "postgres"), // testdb
 		},
 	}
 }

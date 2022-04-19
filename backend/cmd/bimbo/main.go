@@ -7,8 +7,10 @@ import (
 func main() {
 	app.Start()
 }
-todo:
-auth jwt
-admin crud
-plaining - pdf gen -crud ? 
 
+// check auth
+// sign use lib
+// plaining - pdf gen -crud ?
+
+// admin crud
+// check crud

@@ -4,16 +4,18 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"log"
 	"net/http"
 	"time"
 
 	"bimbo/internal/config"
+	"bimbo/internal/handler"
 
-	// "github.com/devstackq/bazar/db"
-	// httpAdmin "github.com/devstackq/bazar/internal/admin/delivery/http"
+	"bimbo/internal/repository/psql"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	_ "github.com/lib/pq"
 	"github.com/sirupsen/logrus"
 )
 
@@ -62,16 +64,13 @@ func (a *App) Initialize() {
 	// mongoObject := db.NewDbObject("mongodb", viper.GetString("mongo.username"), viper.GetString("mongo.password"), viper.GetString("mongo.host"), viper.GetString("mongo.port"), viper.GetString("mongo.dbName"), viper.GetString("mongo.user_collection"))
 	// repo := mongoRepo.NewUserRepository(db.(*mongo.Database), viper.GetString("mongo.user_collection"))
 
-	// sqlObject := db.NewDbObject("postgresql", a.cfg.DB.Username, a.cfg.DB.Password, a.cfg.DB.Host, a.cfg.DB.Port, a.cfg.DB.DBName)
-	// db, err := sqlObject.InitDb()
-	// if err != nil {
-	// 	log.Println(err)
-	// 	return
-	// }
-	// a.db = db.(*sql.DB)
+	db, err := psql.InitDb(a.cfg)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	a.db = db
 	a.Logger.Info("intialize postgres...")
-
-	// 	authUseCase: usecase.NewAuthUseCase(repo, []byte(viper.GetString("auth.hash_salt")), []byte(viper.GetString("auth.secret_key")), viper.GetDuration("auth.token_ttl")),
 	a.setComponents()
 }
 
@@ -103,10 +102,8 @@ func (a *App) Run(ctx context.Context) {
 	a.Logger.Info("application exiting")
 }
 
-// all microservice connect 1 db
 func (a *App) setComponents() {
 	apiVersion := a.router.Group("/v1")
 	apiVersion.Static("/images/", "./images")
-
-	// httpGallery.SetGalleryEndpoints(a.cfg, a.db, a.Logger, apiVersion)
+	handler.SetEndpoints(a.cfg, a.db, a.Logger, apiVersion)
 }

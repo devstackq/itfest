@@ -1,0 +1,25 @@
+version: '3.8'
+  
+services:
+  postgresdb:
+    container_name: postgresdb
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DATABASE=testdb
+    volumes:
+      - ./build/sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+      - ./postgres-data:/var/lib/postgresql/data
+    restart: always
+
+
+networks:
+  darknet:
+    driver: bridge
+
+volumes:
+   postgres-data:
+#   bimbo-app:
