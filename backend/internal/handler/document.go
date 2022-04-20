@@ -24,6 +24,7 @@ func (h *Handler) CreateDocument(c *gin.Context) {
 		responseWithStatus(c, http.StatusBadRequest, err.Error(), "Input error", nil)
 		return
 	}
+	pdfgenerator.GeneratePdf(tmplData)
 
 	r := pdfgenerator.NewRequestPdf("")
 	// html template path

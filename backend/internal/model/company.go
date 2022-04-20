@@ -2,5 +2,5 @@ package model
 
 type Company struct {
 	ID   int
-	Name string
+	Name string `json:"name"`
 }

@@ -12,9 +12,9 @@ type Templ1 struct {
 	ID           int // tmpl id
 	Title        string
 	Description  string
-	Company      // get list
-	Departament  // get list
-	Status       // get list
+	Company      `json:"company"`     // get list
+	Departament  `json:"departament"` // get list
+	Status       `json:"status"`      // get list
 	CreationDate string
 	Author       User `json:"auhtor_id"`  // get jwt token
 	ToWhom       User `json:"to_whom_id"` // return list user

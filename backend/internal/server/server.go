@@ -67,7 +67,7 @@ func (a *App) Initialize() {
 	db, err := psql.InitDb(a.cfg)
 	if err != nil {
 		log.Println(err)
-		return
+		// return
 	}
 	a.db = db
 	a.Logger.Info("intialize postgres...")

@@ -2,14 +2,56 @@ package pdfgenerator
 
 import (
 	"bytes"
+	"html/template"
 	"io/ioutil"
+	"log"
 	"os"
+	"reflect"
 	"strconv"
-	"text/template"
 	"time"
 
+	"bimbo/internal/model"
+
 	"github.com/SebastiaanKlippert/go-wkhtmltopdf"
+	"github.com/jung-kurt/gofpdf"
 )
+
+func GeneratePdf(data model.Templ1) {
+	// libs -> config/ tag ?
+	pdf := gofpdf.New("P", "mm", "A4", "")
+	pdf.AddPage()
+	pdf.SetFont("Arial", "B", 12)
+	// pdf.SetCellMargin(20)
+
+	v := reflect.ValueOf(data)
+
+	values := make([]interface{}, v.NumField())
+
+	for i := 1; i < v.NumField()-1; i++ {
+		// pdf.Cell(10, float64(i)*10, v.Field(i).Interface())
+		values[i] = v.Field(i).Interface()
+	}
+
+	for i, v := range values {
+		switch s := v.(type) {
+		case model.Company:
+			pdf.Cell(1, float64(i+1)*10, s.Name)
+		case model.User:
+			pdf.Cell(1, float64(i+1)*10, s.FullName)
+		case model.Departament:
+			pdf.Cell(1, float64(i+1)*10, s.Name)
+		case model.Status:
+			pdf.Cell(1, float64(i+1)*10, s.Name)
+		case string:
+			pdf.Cell(1, float64(i+1)*10, s)
+		}
+	}
+
+	// pdf.Cell(10, 50, "Hello, 2222")
+
+	err := pdf.OutputFileAndClose("hello.pdf")
+	log.Println(err, 32)
+}
 
 // pdf requestpdf struct
 type RequestPdf struct {
